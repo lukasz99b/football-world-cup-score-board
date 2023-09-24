@@ -10,6 +10,11 @@ class ScoreBoard
 {
     private ?Game $game = null;
 
+    public function __construct(
+        private readonly FinishedGamesRepository $finishedGamesRepository,
+    ) {
+    }
+
     public function getGame(): ?Game
     {
         return $this->game;
@@ -22,5 +27,15 @@ class ScoreBoard
         }
 
         $this->game = new Game($homeTeamName, $awayTeamName);
+    }
+
+    public function finishGame()
+    {
+        if ($this->game === null) {
+            throw ScoreBoardException::gameNotStarted();
+        }
+
+        $this->finishedGamesRepository->add($this->game);
+        $this->game = null;
     }
 }

@@ -5,12 +5,18 @@ declare(strict_types=1);
 namespace spec\App\ScoreBoard;
 
 use App\ScoreBoard\Exception\ScoreBoardException;
+use App\ScoreBoard\FinishedGamesRepository;
 use App\ScoreBoard\Game;
 use App\ScoreBoard\ScoreBoard;
 use PhpSpec\ObjectBehavior;
 
 class ScoreBoardSpec extends ObjectBehavior
 {
+    public function let(FinishedGamesRepository $repository): void
+    {
+        $this->beConstructedWith($repository);
+    }
+
     public function it_is_initializable(): void
     {
         $this->shouldHaveType(ScoreBoard::class);
@@ -33,5 +39,16 @@ class ScoreBoardSpec extends ObjectBehavior
         $this->startGame('Team1', 'Team2');
         $this->shouldThrow(ScoreBoardException::class)
             ->during('startGame', ['Team3', 'Team4']);
+    }
+
+    public function it_can_finish_the_game(FinishedGamesRepository $repository): void
+    {
+        $this->startGame('Team1', 'Team2');
+        $game = $this->getGame();
+        $repository->add($game)->shouldBeCalled();
+
+        $this->finishGame();
+
+        $this->getGame()->shouldReturn(null);
     }
 }
