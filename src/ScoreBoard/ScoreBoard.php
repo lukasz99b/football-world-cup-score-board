@@ -12,6 +12,7 @@ class ScoreBoard
 
     public function __construct(
         private readonly FinishedGamesRepository $finishedGamesRepository,
+        private readonly SummaryReportGenerator $summaryReportGenerator,
     ) {
     }
 
@@ -46,5 +47,12 @@ class ScoreBoard
         }
 
         $this->game->updateScore($homeTeamScore, $awayTeamScore);
+    }
+
+    public function getFinishedGamesSummary(): string
+    {
+        return $this->summaryReportGenerator->generate(
+            $this->finishedGamesRepository->all()
+        );
     }
 }

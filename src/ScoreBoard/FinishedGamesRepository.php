@@ -7,4 +7,6 @@ namespace App\ScoreBoard;
 interface FinishedGamesRepository
 {
     public function add(Game $game): void;
+
+    public function all();
 }

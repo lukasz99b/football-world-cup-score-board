@@ -30,4 +30,15 @@ class Game
         $this->homeTeamScore = $homeTeamScore;
         $this->awayTeamScore = $awayTeamScore;
     }
+
+    public static function create(
+        string $homeTeamName,
+        int $homeTeamScore,
+        string $awayTeamName,
+        int $awayTeamScore
+    ): static {
+        $game = new static($homeTeamName, $awayTeamName);
+        $game->updateScore($homeTeamScore, $awayTeamScore);
+        return $game;
+    }
 }

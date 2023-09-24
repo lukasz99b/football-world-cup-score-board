@@ -7,14 +7,18 @@ namespace spec\App\ScoreBoard;
 use App\ScoreBoard\Exception\ScoreBoardException;
 use App\ScoreBoard\FinishedGamesRepository;
 use App\ScoreBoard\Game;
+use App\ScoreBoard\GameCollection;
 use App\ScoreBoard\ScoreBoard;
+use App\ScoreBoard\SummaryReportGenerator;
 use PhpSpec\ObjectBehavior;
 
 class ScoreBoardSpec extends ObjectBehavior
 {
-    public function let(FinishedGamesRepository $repository): void
-    {
-        $this->beConstructedWith($repository);
+    public function let(
+        FinishedGamesRepository $repository,
+        SummaryReportGenerator $report,
+    ): void {
+        $this->beConstructedWith($repository, $report);
     }
 
     public function it_is_initializable(): void
@@ -59,5 +63,17 @@ class ScoreBoardSpec extends ObjectBehavior
 
         $this->getGame()->getHomeTeamScore()->shouldReturn(1);
         $this->getGame()->getAwayTeamScore()->shouldReturn(0);
+    }
+
+    public function it_can_generate_summary(
+        FinishedGamesRepository $repository,
+        SummaryReportGenerator $report,
+    ): void {
+        $gameCollection = new GameCollection();
+
+        $repository->all()->willReturn($gameCollection);
+        $report->generate($gameCollection);
+
+        $this->getFinishedGamesSummary()->shouldBeString();
     }
 }
