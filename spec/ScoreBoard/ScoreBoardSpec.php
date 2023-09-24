@@ -51,4 +51,13 @@ class ScoreBoardSpec extends ObjectBehavior
 
         $this->getGame()->shouldReturn(null);
     }
+
+    public function it_can_update_score(): void
+    {
+        $this->startGame('Team1', 'Team2');
+        $this->updateScore(1, 0);
+
+        $this->getGame()->getHomeTeamScore()->shouldReturn(1);
+        $this->getGame()->getAwayTeamScore()->shouldReturn(0);
+    }
 }

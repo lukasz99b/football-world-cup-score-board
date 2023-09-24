@@ -38,4 +38,13 @@ class ScoreBoard
         $this->finishedGamesRepository->add($this->game);
         $this->game = null;
     }
+
+    public function updateScore(int $homeTeamScore, int $awayTeamScore): void
+    {
+        if ($this->game === null) {
+            throw ScoreBoardException::gameNotStarted();
+        }
+
+        $this->game->updateScore($homeTeamScore, $awayTeamScore);
+    }
 }

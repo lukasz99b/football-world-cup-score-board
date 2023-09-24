@@ -24,4 +24,10 @@ class Game
     {
         return $this->awayTeamScore;
     }
+
+    public function updateScore(int $homeTeamScore, int $awayTeamScore): void
+    {
+        $this->homeTeamScore = $homeTeamScore;
+        $this->awayTeamScore = $awayTeamScore;
+    }
 }
