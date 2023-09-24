@@ -1,0 +1,11 @@
+{
+    "name": "lukasz/score-board",
+    "type": "library",
+    "authors": [
+        {
+            "name": "Łukasz Bacik",
+            "email": "mail@luka.sh"
+        }
+    ],
+    "require": {}
+}
